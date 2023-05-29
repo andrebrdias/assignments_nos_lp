@@ -21,10 +21,6 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
     Args:
         region (str): _description_
     """
-     df_data.columns =  [
-        col.replace("\\","") for col
-        in df_data.columns
-        ]
 
     # Prepare the data
     df_data = df_data.melt(id_vars='unit,sex,age,region', var_name='year', value_name='value')
