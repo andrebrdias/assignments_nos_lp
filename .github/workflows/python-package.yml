@@ -27,6 +27,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
+        pip install pylint
     - name: Lint with pylint
       run: |
         pylint $(git ls-files '*.py')
