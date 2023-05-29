@@ -1,15 +1,23 @@
 """
 Cleaning data from a tsv file.
 """
-
 import pandas as pd
 
-def clean_data(region: str):
-    """Function used to clean data"""
+
+def load_data() -> pd.DataFrame:
 
     # Data Collection
     data = 'life_expectancy/data/eu_life_expectancy_raw.tsv'
-    df_data = pd.read_csv(data, delimiter='\t')
+    return pd.read_csv(data, delimiter='\t')
+
+
+def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
+    """Function used to clean data
+
+    Args:
+        region (str): _description_
+    """
+
     # Prepare the data
     df_data = df_data.melt(id_vars='unit,sex,age,region', var_name='year', value_name='value')
 
@@ -29,7 +37,18 @@ def clean_data(region: str):
     df_joined['year'] = df_joined['year'].str.extract('(\d+)').astype(int)
     df_joined['value'] = pd.to_numeric(df_joined['value'], errors='coerce')
     df_joined = df_joined.dropna(subset=['value'])
-    df_joined = df_joined[df_joined['region'] == 'PT']
+    df_joined = df_joined[df_joined['region'] == region]
+    return df_joined
+
+
+def save_data(df: pd.DataFrame) -> None:
+    """_summary_
+
+    Args:
+        df (pd.DataFrame): _description_
+        output_path (str): _description_
+    """
+
     # Save the resulting dataframe to pt_life_expectancy.csv
     output_path = 'life_expectancy/data/pt_life_expectancy.csv'
-    df_joined.to_csv(output_path, index=False)
+    df.to_csv(output_path, index=False)
