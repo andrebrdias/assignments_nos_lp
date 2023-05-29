@@ -21,18 +21,20 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
     Args:
         region (str): _description_
     """
+    df_data.columns =  [col.replace("\\","") for col in df_data.columns]
 
     # Prepare the data
-    df_data = df_data.melt(id_vars='unit,sex,age,region', var_name='year', value_name='value')
+    df_data = df_data.melt(id_vars='unit,sex,age,geotime', var_name='year', value_name='value')
 
+    # Separate columns and merge them together to keep order
     df_values = df_data[['year', 'value']]
-    df_key = df_data[['unit,sex,age,region']]
+    df_key = df_data[['unit,sex,age,geotime']]
 
-    df_key[['unit','sex','age','region']] = df_key['unit,sex,age,region'] \
+    df_key[['unit','sex','age','region']] = df_key['unit,sex,age,geotime'] \
     .str.split(",", expand = True)
-    df_key.drop(columns=['unit,sex,age,region'], inplace=True)
+    df_key.drop(columns=['unit,sex,age,geotime'], inplace=True)
 
-    df_joined = df_key.join(df_values)
+    df_joined = df_key.merge(df_values, right_index=True, left_index=True)
 
     # Perform Data Cleaning:
     #   - Convert year to integer
