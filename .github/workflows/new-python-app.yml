@@ -29,6 +29,7 @@ jobs:
         pip install pylint
         pip install pytest
         pip install pandas
+        pylint --disable=all --enable=unused-import $(git ls-files '*.py')
     - name: Lint with pylin
       run: |
        pylint $(git ls-files '*.py')
