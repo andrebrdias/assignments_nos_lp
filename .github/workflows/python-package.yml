@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip
     - name: Lint with pylint
       run: |
-        pylint life_expectancy.cleaning
+        pylint $(git ls-files '*.py')
     - name: Test with pytest
       run: |
         pytest
