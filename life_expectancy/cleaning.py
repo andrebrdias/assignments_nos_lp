@@ -5,7 +5,11 @@ import pandas as pd
 
 
 def load_data() -> pd.DataFrame:
+    """Function to load the tsv file
 
+    Returns:
+        pd.DataFrame: _description_
+    """
     # Data Collection
     data = 'life_expectancy/data/eu_life_expectancy_raw.tsv'
     return pd.read_csv(data, delimiter='\t')
@@ -34,14 +38,14 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
     #   - Convert year to integer
     #   - Convert value to float and remove NaNs
     #   - Filter data for region PT (Portugal)
-    df_joined['year'] = df_joined['year'].str.extract('(\d+)').astype(int)
+    df_joined['year'] = df_joined['year'].str.extract(r'(\d+)').astype(int)
     df_joined['value'] = pd.to_numeric(df_joined['value'], errors='coerce')
     df_joined = df_joined.dropna(subset=['value'])
     df_joined = df_joined[df_joined['region'] == region]
     return df_joined
 
 
-def save_data(df: pd.DataFrame) -> None:
+def save_data(df_data: pd.DataFrame) -> None:
     """_summary_
 
     Args:
@@ -51,4 +55,4 @@ def save_data(df: pd.DataFrame) -> None:
 
     # Save the resulting dataframe to pt_life_expectancy.csv
     output_path = 'life_expectancy/data/pt_life_expectancy.csv'
-    df.to_csv(output_path, index=False)
+    df_data.to_csv(output_path, index=False)
