@@ -5,10 +5,10 @@ import pandas as pd
 
 
 def load_data() -> pd.DataFrame:
-    """Function to load the tsv file
+    """Function to load the tsv file.
 
     Returns:
-        pd.DataFrame: _description_
+        pd.DataFrame: prepared dataframe
     """
     # Data Collection
     data = 'life_expectancy/data/eu_life_expectancy_raw.tsv'
@@ -16,10 +16,10 @@ def load_data() -> pd.DataFrame:
 
 
 def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
-    """Function used to clean data
+    """Function used to clean data.
 
     Args:
-        region (str): _description_
+        region (str): indicate a region by ISO 3166 Code
     """
     df_data.columns =  [col.replace("\\","") for col in df_data.columns]
 
@@ -48,11 +48,10 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
 
 
 def save_data(df_data: pd.DataFrame) -> None:
-    """_summary_
+    """Save the final dataframe.
 
     Args:
-        df (pd.DataFrame): _description_
-        output_path (str): _description_
+        df_data (pd.DataFrame): receives the cleaned dataframe
     """
 
     # Save the resulting dataframe to pt_life_expectancy.csv
