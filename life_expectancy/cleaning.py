@@ -19,6 +19,7 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
     """Function used to clean data.
 
     Args:
+        df_data (DataFrame): dataframe containing raw data
         region (str): indicate a region by ISO 3166 Code
     """
     df_data.columns =  [col.replace("\\","") for col in df_data.columns]
@@ -41,7 +42,7 @@ def clean_data(df_data: pd.DataFrame, region: str) -> pd.DataFrame:
     #   - Convert value to float and remove NaNs
     #   - Filter data for region PT (Portugal)
     df_joined['year'] = df_joined['year'].str.extract(r'(\d+)').astype(int)
-    df_joined['value'] = pd.to_numeric(df_joined['value'], errors='coerce')
+    df_joined['value'] = df_joined['value'].str.extract(r'(\d+)').astype(int)
     df_joined = df_joined.dropna(subset=['value'])
     df_joined = df_joined[df_joined['region'] == region]
     return df_joined
